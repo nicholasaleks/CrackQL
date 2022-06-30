@@ -9,20 +9,28 @@ CrackQL is a GraphQL password brute-force and fuzzing utility.
 
 CrackQL is a versatile GraphQL penetration testing tool that exploits poor rate-limit and cost analysis controls to brute-force credentials and fuzz operations.
 It works by automatically batching a GraphQL query or mutation operation which executes dynamic inputs from a supplied dictionary into a single request.
-CrackQL evades traditional API rate and ATO monitoring controls since it uses query batching to stuffed the entire set of credentials into a single HTTP request.
+CrackQL evades traditional API rate and account take-over monitoring defenses since it uses query batching to stuff the entire set of credentials into a single HTTP request.
 
 
 ## Attack Use Cases
 
-CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL authentication operations (such as the [GraphQL Authentication Module](https://www.graphql-modules.com/docs#authentication-module))
+CrackQL can be used for a wide range of GraphQL attacks since it programmatically generate payloads based on a list of dynamic inputs, similar to [Burp Intruder](https://portswigger.net/burp/documentation/desktop/tools/intruder). However, unlike Intruder it does not send a request for each unique payload. Instead, CrackQL will optimize its unique payloads into a series of batch queries and mutations masked by different GraphQL aliases in order to evade rate-limit controls.
 
 ### Password Spraying Brute-forcing
 
+CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL authentication operations (such as the [GraphQL Authentication Module](https://www.graphql-modules.com/docs#authentication-module))
+
 ### Two-factor Authentication OTP Bypass
+
+It is possible to use CrackQL to bypass two-factor authentication by sending all OTP (One Time Password) tokens
 
 ### User Account Enumeration
 
+CrackQL can also be used for enumeration attacks to discover valid user ids, usernames and email addresses
+
 ### Field Stuffing Information Disclosure
+
+If introspection is disabled, CrackQL could be used to stuff potential fields into query operations in order to leak information
 
 ### General Fuzzing
 
