@@ -39,8 +39,8 @@ CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL aut
 ### Get Dependencies
 `pip install -r requirements.txt`
 
-### Run graphw00f
-`python3 main.py -h`
+### Run CrackQl
+`python3 CrackQL.py -h`
 
 ```
 Usage: CrackQL.py -t http://example.com/graphql -q query.graphql -i users_passwords.csv -b 10 -a alias
