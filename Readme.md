@@ -1,6 +1,6 @@
 CrackQL
 =======
-GraphQL password brute-force and fuzzing utility.
+CrackQL is a GraphQL password brute-force and fuzzing utility.
 
 <h1 align="center">
 	<img src="https://github.com/nicholasaleks/CrackQL/blob/master/static/CrackQL-Banner.png?raw=true" alt="CrackQL"/>
@@ -39,7 +39,7 @@ CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL aut
 ### Get Dependencies
 `pip install -r requirements.txt`
 
-### Run CrackQl
+### Run CrackQL
 `python3 CrackQL.py -h`
 
 ```
