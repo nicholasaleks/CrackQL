@@ -14,13 +14,15 @@ CrackQL evades traditional API rate and ATO monitoring controls since it uses qu
 
 ## Attack Use Cases
 
-CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL authentication operations (such as GraphQL Modules)
+CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL authentication operations (such as the [GraphQL Authentication Module](https://www.graphql-modules.com/docs#authentication-module))
 
 ### Password Spraying Brute-forcing
 
-
 ### Two-factor Authentication OTP Bypass
 
+### User Account Enumeration
+
+### Field Stuffing Information Disclosure
 
 ### General Fuzzing
 
