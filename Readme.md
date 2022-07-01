@@ -14,7 +14,7 @@ It works by automatically batching a GraphQL query or mutation operation which e
 
 ## Attack Use Cases
 
-CrackQL can be used for a wide range of GraphQL attacks since it programmatically generate payloads based on a list of dynamic inputs, similar to [Burp Intruder](https://portswigger.net/burp/documentation/desktop/tools/intruder). However, unlike Intruder it does not send a request for each unique payload. Instead, CrackQL will optimize its unique payloads into a series of batch queries and mutations masked by different GraphQL aliases in order to evade rate-limit controls.
+CrackQL can be used for a wide range of GraphQL attacks since it programmatically generates payloads based on a list of dynamic inputs, similar to [Burp Intruder](https://portswigger.net/burp/documentation/desktop/tools/intruder). However, unlike Intruder it does not send a request for each unique payload. Instead, CrackQL will optimize its unique payloads into a series of batch queries and mutations masked by different GraphQL aliases in order to evade rate-limit controls.
 
 ### Password Spraying Brute-forcing
 
