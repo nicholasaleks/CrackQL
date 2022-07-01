@@ -1,0 +1,7 @@
+mutation {
+	login(username: "$username|str$", password: "$password|str$") {
+		user {
+			username
+		}
+	}
+}

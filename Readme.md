@@ -56,13 +56,16 @@ If introspection is disabled, CrackQL could be used to stuff potential fields in
 Usage: CrackQL.py -t http://example.com/graphql -q query.graphql -i users_passwords.csv -b 10 -a alias
 
 Options:
-  -h, --help            show this help message and exit
-  -t URL, --target=URL  target url with a path to the GraphQL endpoint
-  -b BATCH_SIZE, --batch-size=BATCH_SIZE
-                        Number of batch operations per GraphQL request
-  -o OUTPUT_JSON, --output-json=OUTPUT_JSON
-                        Output results to a file (JSON)
+  -h, --help            Show this help message and exit
+  -t URL, --target=URL  Target url with a path to the GraphQL endpoint
+  -q QUERY, --query=QUERY  Input query or mutation operation with variable payload markers
   -i INPUTS_CSV, --input=INPUTS_CSV
                         Path to a csv list of arguments (i.e. usernames, emails, ids, passwords, otp_tokens, etc.)
+  -o OUTPUT_JSON, --output-json=OUTPUT_JSON
+                        Output results to a JSON file (default: results/[url]-[timestamp].json)
+  -b BATCH_SIZE, --batch-size=BATCH_SIZE
+                        Number of batch operations per GraphQL document request (default: 100)
+  -a ALIAS_NAME, --alias-name=ALIAS_NAME
+                        Prefix name of the alias used to batch query operations appended with auto incremented IDs (default: alias)
   -v, --version         Print out the current version and exit.
 ```
