@@ -8,8 +8,8 @@ CrackQL is a GraphQL password brute-force and fuzzing utility.
 </h1>
 
 CrackQL is a versatile GraphQL penetration testing tool that exploits poor rate-limit and cost analysis controls to brute-force credentials and fuzz operations.
-It works by automatically batching a GraphQL query or mutation operation which executes dynamic inputs from a supplied dictionary into a single request.
-CrackQL evades traditional API rate and account take-over monitoring defenses since it uses query batching to stuff the entire set of credentials into a single HTTP request.
+
+It works by automatically batching a GraphQL query or mutation operation which executes dynamic inputs from a supplied dictionary into a single request. CrackQL evades traditional API rate and account take-over monitoring defenses since it uses query batching to stuff the entire set of credentials into a single HTTP request.
 
 
 ## Attack Use Cases
@@ -61,6 +61,7 @@ Options:
   -q QUERY, --query=QUERY  Input query or mutation operation with variable payload markers
   -i INPUTS_CSV, --input=INPUTS_CSV
                         Path to a csv list of arguments (i.e. usernames, emails, ids, passwords, otp_tokens, etc.)
+  -d DELIMITER, --delimiter=DELIMITER  CSV input delimiter (default: ",")
   -o OUTPUT_JSON, --output-json=OUTPUT_JSON
                         Output results to a JSON file (default: results/[url]-[timestamp].json)
   -b BATCH_SIZE, --batch-size=BATCH_SIZE

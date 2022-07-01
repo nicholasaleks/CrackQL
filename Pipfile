@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 requests = "*"
+graphql-core = "*"
 
 [dev-packages]
 

@@ -1,6 +1,6 @@
 from optparse import OptionParser
 from version import VERSION
-from lib.verifications import verify_url
+from lib.verifications import verify_url, verify_query, verify_inputs
 
 import sys
 
@@ -28,6 +28,13 @@ def main():
 		'--input-csv',
 		dest='input_csv',
 		help='Path to a csv list of arguments (i.e. usernames, emails, ids, passwords, otp_tokens, etc.)'
+	)
+	parser.add_option(
+		'-d',
+		'--delimiter',
+		dest='delimiter',
+		help='CSV input delimiter (default: ",")',
+		default=','
 	)
 	parser.add_option(
 		'-o',
@@ -59,6 +66,8 @@ def main():
 
 	options, args = parser.parse_args()
 
+	print('[*] Starting CrackQL...')
+
 	# Verify required arguments exist
 
 	if options.version:
@@ -81,22 +90,102 @@ def main():
 		sys.exit(1)
 
 
+	print('[*] Validating url, query operation and inputs...')
+
+	# Verify Target GraphQL Endpoint
+
 	if not verify_url(options.url):
 		sys.exit(1)
 
+	# Verify GraphQL Operation (mock data)
+
+	if not verify_query(options.query):
+		sys.exit(1)
+
+	# Verify Input CSV exists and is correct csv format
+
+	if not verify_inputs(options.query, options.input_csv, options.delimiter):
+		sys.exit(1)
+
+	# **TODO** Measure CSV Input Size and Potentially Shared for better processing 
+
+	print('[*] Generating & parsing batch queries...')
+
+	# Count CSV lines
+
+	# Execution loop = CSV_LINE_COUNT / BATCH_SIZE
 
 
 
 
 
 
-# Verify Target GraphQL Endpoint
 
-# Verify Input CSV exists and is correct format
 
-# Verify GraphQL Operation (mock data)
 
-# Measure CSV Input Size and Potentially Shared for better processing **TODO**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
