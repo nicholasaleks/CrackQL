@@ -53,7 +53,7 @@ If introspection is disabled, CrackQL could be used to stuff potential fields in
 `python3 CrackQL.py -h`
 
 ```
-Usage: CrackQL.py -t http://example.com/graphql -q query.graphql -i users_passwords.csv -b 10 -a alias
+Usage: CrackQL.py -t http://example.com/graphql -q query.graphql -i users_passwords.csv
 
 Options:
   -h, --help            Show this help message and exit
@@ -67,6 +67,6 @@ Options:
   -b BATCH_SIZE, --batch-size=BATCH_SIZE
                         Number of batch operations per GraphQL document request (default: 100)
   -a ALIAS_NAME, --alias-name=ALIAS_NAME
-                        Prefix name of the alias used to batch query operations appended with auto incremented IDs (default: alias)
+  -D DELAY, --delay=DELAY  Time delay in seconds between batch requests (default: 0)
   -v, --version         Print out the current version and exit.
 ```

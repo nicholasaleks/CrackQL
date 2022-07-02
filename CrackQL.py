@@ -7,7 +7,7 @@ import csv
 import math
 import requests
 import json
-
+import time
 
 def generate_payload(batch_operations, root_type):
 	operation_body = indent(batch_operations, 4)
@@ -84,6 +84,13 @@ def main():
 		dest='alias_name',
 		help='Prefix name of the alias used to batch query operations appended with auto incremented IDs (default: alias)',
 		default='alias'
+	)
+	parser.add_option(
+		'-D',
+		'--delay',
+		dest='delay',
+		help='Time delay in seconds between batch requests (default: 0)',
+		default=0
 	)
 	parser.add_option(
 		'-v',
@@ -166,6 +173,7 @@ def main():
 		
 				if (alias_id + 1 ) > (int(options.batch_size) * (batches_sent + 1)):
 					batches_sent += 1
+					time.sleep(int(options.delay))
 					payload = generate_payload(batch_operations, root_type)
 					response = send_payload(options.url, payload, batches_sent, total_requests_to_send)
 
@@ -182,6 +190,7 @@ def main():
 
 			if batches_sent != total_requests_to_send:
 				batches_sent += 1
+				time.sleep(int(options.delay))
 				payload = generate_payload(batch_operations, root_type)
 				response = send_payload(options.url, payload, batches_sent, total_requests_to_send)
 				try:
