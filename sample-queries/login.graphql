@@ -1,5 +1,5 @@
 mutation {
-	login(username: "$username|str$", password: "$password|str$") {
-		accessToken
-	}
+  login(username: "$username|str$", password: "$password|str$") {
+    accessToken
+   }
 }

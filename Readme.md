@@ -20,19 +20,61 @@ CrackQL can be used for a wide range of GraphQL attacks since it programmaticall
 
 CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL authentication operations (such as the [GraphQL Authentication Module](https://www.graphql-modules.com/docs#authentication-module))
 
+*sample-queries/login.graphql*
+```
+mutation {
+  login(username: "$username|str$", password: "$password|str$") {
+    accessToken
+  }
+}
+```
+
 ### Two-factor Authentication OTP Bypass
 
 It is possible to use CrackQL to bypass two-factor authentication by sending all OTP (One Time Password) tokens
+
+*sample-queries/otp-bypass.graphql*
+```
+mutation {
+  twoFactor(otp: "$otp|int$") {
+    accessToken
+  }
+}
+```
 
 ### User Account Enumeration
 
 CrackQL can also be used for enumeration attacks to discover valid user ids, usernames and email addresses
 
-### Field Stuffing Information Disclosure
+*sample-queries/enumeration.graphql*
+```
+query {
+  signup(email: "$email|str$", password:"$password|str$") {
+    user {
+      email
+    }
+  }
+}
+```
 
-If introspection is disabled, CrackQL could be used to stuff potential fields into query operations in order to leak information
+### Insecure Direct Object Reference
+
+CrackQL could be used to iterate over a large number of potential unique identifiers in order to leak object information
+
+*sample-queries/idor.graphql*
+```
+query {
+  profile(uuid: "$uuid|int$") {
+    name
+    email
+    picture
+  }
+}
+```
 
 ### General Fuzzing
+
+CrackQL can be used for general input fuzzing operations, such as sending potential SQLi and XSS payloads.
 
 
 ## Installation
