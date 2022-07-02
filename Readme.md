@@ -18,7 +18,7 @@ CrackQL can be used for a wide range of GraphQL attacks since it programmaticall
 
 ### Password Spraying Brute-forcing
 
-CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL authentication operations (such as the [GraphQL Authentication Module](https://www.graphql-modules.com/docs#authentication-module)). The below password spraying example works against [DVGA](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) with the `sample-inputs/user-and-passwords.csv` dictionary.
+CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL authentication operations (such as the [GraphQL Authentication Module](https://www.graphql-modules.com/docs#authentication-module)). The below password spraying example works against [DVGA](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) with the `sample-inputs/users-and-passwords.csv` dictionary.
 
 *sample-queries/login.graphql*
 ```
