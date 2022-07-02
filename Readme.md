@@ -95,7 +95,7 @@ CrackQL can be used for general input fuzzing operations, such as sending potent
 `python3 CrackQL.py -h`
 
 ```
-Usage: CrackQL.py -t http://example.com/graphql -q query.graphql -i users_passwords.csv
+Usage: CrackQL.py -t http://example.com/graphql -q login.graphql -i users-and-passwords.csv
 
 Options:
   -h, --help            Show this help message and exit
