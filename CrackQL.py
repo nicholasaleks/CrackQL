@@ -1,8 +1,37 @@
 from optparse import OptionParser
 from version import VERSION
 from lib.verifications import verify_url, verify_query, verify_inputs
-
+from lib.parsers import indent, get_root_type, get_csv_row_count, get_operation, inject_payload
 import sys
+import csv
+import math
+import requests
+import json
+
+
+def generate_payload(batch_operations, root_type):
+	operation_body = indent(batch_operations, 4)
+	return root_type  + operation_body + '\n}'
+
+def send_payload(url, payload, batches_sent, total_requests_to_send):
+	print('[+] Sending batch {batches_sent} of {total_requests_to_send} to {url}...'.format(
+		batches_sent=batches_sent,
+		total_requests_to_send=total_requests_to_send,
+		url=url
+	))
+
+	try:
+		response = requests.post(
+			url,
+			verify=False,
+			timeout=10,
+			json={'query':payload}
+		)
+		return response.json()
+
+	except Exception as e:
+		print('Error: {e}'.format(e=e))
+		sys.exit(1)
 
 
 def main():
@@ -54,6 +83,7 @@ def main():
 		'--alias-name',
 		dest='alias_name',
 		help='Prefix name of the alias used to batch query operations appended with auto incremented IDs (default: alias)',
+		default='alias'
 	)
 	parser.add_option(
 		'-v',
@@ -111,80 +141,59 @@ def main():
 
 	print('[*] Generating & parsing batch queries...')
 
-	# Count CSV lines
-
-	# Execution loop = CSV_LINE_COUNT / BATCH_SIZE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	with open(options.query, 'r') as file:
+		query_data = file.read()
+
+		# Store root operation type
+		root_type = get_root_type(query_data)
+
+		# Store operation
+		operation = get_operation(query_data)
+
+		batch_operations = ''
+		alias_id = 1
+		batches_sent = 0
+		csv_rows = get_csv_row_count(options.input_csv, options.delimiter)
+		total_requests_to_send = math.ceil(csv_rows / int(options.batch_size))
+		data_results = {}
+		error_results = []
+
+		with open(options.input_csv, newline='') as csvfile:
+			reader = csv.DictReader(csvfile, delimiter=options.delimiter, skipinitialspace=True)
+			for variables in reader:
+
+				batch_operations = batch_operations + '\n' + options.alias_name + str(alias_id) + ':' + inject_payload(operation, variables)
+		
+				if (alias_id + 1 ) > (int(options.batch_size) * (batches_sent + 1)):
+					batches_sent += 1
+					payload = generate_payload(batch_operations, root_type)
+					response = send_payload(options.url, payload, batches_sent, total_requests_to_send)
+
+					try:
+						data_results = dict(list(data_results.items()) + list(response['data'].items()))
+						error_results = error_results + response['errors']
+					except:
+						pass
+
+					# Clear batch data
+					batch_operations = ''
+
+				alias_id += 1
+
+			if batches_sent != total_requests_to_send:
+				batches_sent += 1
+				payload = generate_payload(batch_operations, root_type)
+				response = send_payload(options.url, payload, batches_sent, total_requests_to_send)
+				try:
+					data_results = dict(list(data_results.items()) + list(response['data'].items()))
+					error_results = error_results + response['errors']
+				except:
+					pass
+
+			print('Data:')
+			print(data_results)
+			print('Error:')
+			print(error_results)
 
 
 

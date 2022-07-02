@@ -1,7 +1,7 @@
 from graphql import parse
+from lib.parsers import get_variable_type
 import requests
 import csv
-import re
 
 requests.packages.urllib3.disable_warnings()
 
@@ -45,29 +45,21 @@ def verify_query(query):
 def verify_inputs(query, csv_input, delimiter):
 	with open(csv_input, newline='') as csvfile:
 		reader = csv.reader(csvfile, delimiter=delimiter)
-
 		list_of_column_names = []
-
 		for row in reader:
 			list_of_column_names = row
 			break
 
 		with open(query, 'r') as file:
-			data = file.read()
+			query_data = file.read()
 
 			for variable in list_of_column_names:
 				variable = variable.replace(' ', '')
-
-				# Check for header variable names against query payload
-				regex = r'\$' + re.escape(variable) + r'\|(...)\$"'
-
-				try:
-					re.search(regex, data).group(1)
-				except Exception as e:
-					print('Error: CSV Header Payload "{variable}" not found in GraphQL operation \n{data} \n{e}'.format(
+				
+				if not get_variable_type(query_data, variable):
+					print('Error: CSV Header Payload "{variable}" not found in GraphQL operation \n{query_data}'.format(
 						variable=variable,
-						data=data,
-						e=e
+						query_data=query_data,
 						)
 					)
 					print('Please verify the GraphQL operation payloads match the csv header')
