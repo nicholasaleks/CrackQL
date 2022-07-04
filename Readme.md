@@ -93,7 +93,6 @@ admin, password
 admin, pass
 admin, pass123
 admin, password123
-admin, changeme
 operator, operator
 operator, password
 operator, pass
