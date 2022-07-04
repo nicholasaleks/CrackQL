@@ -65,13 +65,6 @@ def main():
 		default=1000
 	)
 	parser.add_option(
-		'-a',
-		'--alias-name',
-		dest='alias_name',
-		help='Prefix name of the alias used to batch query operations appended with auto incremented IDs (default: alias)',
-		default='alias'
-	)
-	parser.add_option(
 		'-D',
 		'--delay',
 		dest='delay',
