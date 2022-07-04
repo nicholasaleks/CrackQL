@@ -1,4 +1,5 @@
 import sys
+import os
 import csv
 import math
 import requests
@@ -6,6 +7,8 @@ import json
 import time
 import jinja2
 import graphql
+import uuid
+
 from optparse import OptionParser
 from version import VERSION
 from lib.validations import verify_url, verify_query, verify_inputs
@@ -14,6 +17,8 @@ from lib.generator import generate_payload, send_payload, stringify, intify, flo
 from lib.helpers import print_output
 from graphql.language import print_ast
 from pprint import pprint
+from urllib.parse import urlparse
+
 
 def main():
 	# Get arguments
@@ -50,7 +55,8 @@ def main():
 		'-o',
 		'--output-json',
 		dest='output_json',
-		help='Output results to a JSON file (default: results/[url]-[timestamp].json)',
+		action='store_true',
+		help='Output data and error results to JSON files within a directory (default: results/[domain])[uuid]/',
 	)
 	parser.add_option(
 		'-b',
@@ -92,7 +98,7 @@ def main():
 
 	options, args = parser.parse_args()
 
-	print('[*] Starting CrackQL...')
+	print('[+] Starting CrackQL...')
 
 	# Verify required arguments exist
 
@@ -194,39 +200,32 @@ def main():
 
 
 			print_output('===============================\nResults:\n', options.verbose)
-			print("Data:")
-			pprint(data_results)
 
-			print("Errors:")
-			pprint(error_results)
+			if options.verbose:
+				print("Data:")
+				pprint(data_results)
 
+				print("Errors:")
+				pprint(error_results)
+
+			if options.output_json:
+				directory = options.output_json
+			else:
+				directory = 'results/' + urlparse(options.url).netloc + '_' + str(uuid.uuid4())[0:6]
+			print('[*] Writing to directory', directory)
+			if not os.path.exists(directory):
+				os.mkdir(directory)
+
+			if raw_data:
+				f = open(directory + '/data.json', 'w')
+				f.write(str(raw_data))
+				f.close()
+
+			if raw_errors:
+				f = open(directory + '/errors.json', 'w')
+				f.write(str(raw_errors))
+				f.close()
 
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
