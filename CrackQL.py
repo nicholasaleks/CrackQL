@@ -24,7 +24,7 @@ def main():
 	# Get arguments
 
 	parser = OptionParser(
-		usage='%prog -t http://example.com/graphql -q sample-queries/login.graphql -i sample-inputs/users-and-passwords.csv -b 10 -a alias'
+		usage='python %prog -t http://example.com/graphql -q sample-queries/login.graphql -i sample-inputs/users-and-passwords.csv'
 	)
 	parser.add_option(
 		'-t',
