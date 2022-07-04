@@ -15,16 +15,13 @@ def verify_url(url):
 			verify=False,
 			timeout=10
 		)
-		if response.status_code in [404, 405, 500, 501, 502, 503, 504]:
-			print('Error: GraphQL Endpoint [{url}] does not appear valid. Response Code: {code}.'.format(
-				url=url,
-				code=response.status_code
-				)
-			)
-			print('Please verify the GraphQL endpoint is correct')
-			return False
-		else:
-			return True
+		if response.get('data'):
+			if response.get('data', {}).get('__typename', '') in ('Query', 'QueryRoot', 'query_root'):
+				return True
+			elif response.get('errors') and (any('locations' in i for i in response['errors']) or (any('extensions' in i for i in response))):
+				return True
+			elif response.get('data'):
+				return True
 
 	except Exception as e:
 		print('Error: {e}'.format(e=e))
