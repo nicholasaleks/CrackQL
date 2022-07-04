@@ -81,6 +81,30 @@ query {
 
 CrackQL can be used for general input fuzzing operations, such as sending potential SQLi and XSS payloads.
 
+## Inputs
+
+CrackQL will generate payloads based on input variables defined by a CSV file. CrackQL requires the CSV header to match the input name.
+
+*sample-inputs/usernames_and_passwords.csv*
+<pre>
+<b>username</b>, <b>password</b>
+admin, admin
+admin, password
+admin, pass
+admin, pass123
+admin, password123
+admin, changeme
+operator, operator
+operator, password
+operator, pass
+operator, pass123
+operator, password123
+</pre>
+
+### Valid input types
+- `str`
+- `int`
+- `float`
 
 ## Installation
 
@@ -100,7 +124,7 @@ CrackQL can be used for general input fuzzing operations, such as sending potent
 `python3 CrackQL.py -h`
 
 ```
-Usage: python3 CrackQL.py -t http://example.com/graphql -q login.graphql -i users-and-passwords.csv
+Usage: python3 CrackQL.py -t http://example.com/graphql -q login.graphql -i usernames-and-passwords.csv
 
 Options:
   -h, --help            Show this help message and exit
