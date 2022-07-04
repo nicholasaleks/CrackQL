@@ -10,9 +10,8 @@ from optparse import OptionParser
 from version import VERSION
 from lib.validations import verify_url, verify_query, verify_inputs
 from lib.parser import indent, get_root_type, get_csv_row_count, get_operation, parse_data_response, parse_error_response
-from lib.generator import inject_payload, generate_payload, send_payload, stringify, intify, floatify
+from lib.generator import generate_payload, send_payload, stringify, intify, floatify
 from lib.helpers import print_output
-from graphql.utilities import build_ast_schema
 from graphql.language import print_ast
 from pprint import pprint
 
@@ -115,7 +114,6 @@ def main():
 		parser.error('Input file (-i) not given')
 		parser.print_help()
 		sys.exit(1)
-
 
 	print_output('[*] Validating URL and CSV Inputs...', options.verbose)
 

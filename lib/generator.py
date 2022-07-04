@@ -25,19 +25,6 @@ def floatify(text):
     '''
     return float(text)
 
-def inject_payload(operation, variables):
-	for key in variables.keys():
-		variable_type = get_variable_type(operation, key)
-		regex = r'"\$' + re.escape(key) + r'\|'+ re.escape(variable_type) + r'\$"'
-		if variable_type == 'str':
-			filled_operation = re.sub(regex, '"'+re.escape(variables[key])+'"', operation)
-		elif variable_type == 'int':
-			filled_operation = re.sub(regex, ''+re.escape(variables[key])+'', operation)
-		operation = filled_operation
-
-
-	return operation
-
 def generate_payload(batch_operations, root_type):
 	'''
 	Takes the total batch of alias operations and wraps it with the original root type
@@ -54,6 +41,7 @@ def send_payload(url, payload, batches_sent, total_requests_to_send, verbose=Fal
 
 	print_output('[+] Verifying Payload Batch Operation...', verbose)
 	if not verify_query(payload, query_format='String'):
+		print('Error: Bad GraphQL Query - Check Query and/or Payloads')
 		sys.exit(1)
 
 	print('[+] Sending Alias Batch {batches_sent} of {total_requests_to_send} to {url}...'.format(
