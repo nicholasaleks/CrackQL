@@ -11,12 +11,14 @@ CrackQL is a versatile GraphQL penetration testing tool that exploits poor rate-
 
 ## How it works?
 
-CrackQL works by automatically batching a GraphQL query or mutation operation which includes a list of dynamic inputs from a supplied dictionary into a single request. CrackQL evades traditional API rate and account take-over monitoring defenses since it uses query batching to stuff large sets of credentials into a single HTTP request.
+CrackQL works by automatically batching a single GraphQL query or mutation operation behind several aliases. It determines the number of aliases to use based on the CSV input variables. After programmatically generating the batched GraphQL document, CrackQL then batches and sends the payload(s) to the target GraphQL API and parses the results and errors.
+
+CrackQL evades traditional API rate and ATO monitoring defenses by using alias query batching to stuff large sets of credentials into single HTTP requests. Unlike [Burp Intruder](https://portswigger.net/burp/documentation/desktop/tools/intruder) which sends a request for each unique payload. CrackQL will optimize its unique payloads into a series of batch queries and mutations masked by different GraphQL aliases in order to evade rate-limit controls.
 
 
 ## Attack Use Cases
 
-CrackQL can be used for a wide range of GraphQL attacks since it programmatically generates payloads based on a list of dynamic inputs, similar to [Burp Intruder](https://portswigger.net/burp/documentation/desktop/tools/intruder). However, unlike Intruder it does not send a request for each unique payload. Instead, CrackQL will optimize its unique payloads into a series of batch queries and mutations masked by different GraphQL aliases in order to evade rate-limit controls.
+CrackQL can be used for a wide range of GraphQL attacks since it programmatically generates payloads based on a list of dynamic inputs.
 
 ### Password Spraying Brute-forcing
 
