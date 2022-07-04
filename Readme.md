@@ -11,9 +11,9 @@ CrackQL is a versatile GraphQL penetration testing tool that exploits poor rate-
 
 ## How it works?
 
-CrackQL works by automatically batching a single GraphQL query or mutation operation behind several aliases. It determines the number of aliases to use based on the CSV input variables. After programmatically generating the batched GraphQL document, CrackQL then batches and sends the payload(s) to the target GraphQL API and parses the results and errors.
+CrackQL works by automatically batching a single GraphQL query or mutation into several alias operations. It determines the number of aliases to use based on the CSV input variables. After programmatically generating the batched GraphQL document, CrackQL then batches and sends the payload(s) to the target GraphQL API and parses the results and errors.
 
-CrackQL evades traditional API rate and ATO monitoring defenses by using alias query batching to stuff large sets of credentials into single HTTP requests. Unlike [Burp Intruder](https://portswigger.net/burp/documentation/desktop/tools/intruder) which sends a request for each unique payload. CrackQL will optimize its unique payloads into a series of batch queries and mutations masked by different GraphQL aliases in order to evade rate-limit controls.
+Unlike [Burp Intruder](https://portswigger.net/burp/documentation/desktop/tools/intruder) which sends a request for each unique payload, CrackQL evades traditional API HTTP rate-limit monitoring defenses by using multiple alias queries to stuff large sets of credentials into single HTTP requests. To bypass query cost analysis defenses, CrackQL can be optimized into using a series of smaller batched operations (`-b`) as well as a time delay (`-D`).
 
 
 ## Attack Use Cases
