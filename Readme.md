@@ -112,3 +112,7 @@ Options:
   -D DELAY, --delay=DELAY  Time delay in seconds between batch requests (default: 0)
   -v, --version         Print out the current version and exit.
 ```
+
+## Maintainers
+* [Nick Aleks](https://github.com/nicholasaleks)
+* [Dolev Farhi](https://github.com/dolevf)
