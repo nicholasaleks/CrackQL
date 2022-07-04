@@ -72,7 +72,6 @@ def verify_inputs(query, csv_input, delimiter):
 			query_data = file.read()
 
 			for variable in list_of_column_names:
-				print(variable)
 				
 				if not get_variable_type(query_data, variable):
 					print('Error: CSV Header Payload "{variable}" not found in GraphQL operation \n{query_data}'.format(

@@ -1,5 +1,5 @@
 mutation {
-  twoFactor(otp: "$otp|int$") {
+  twoFactor(otp: {{otp|int}}) {
     accessToken
   }
 }

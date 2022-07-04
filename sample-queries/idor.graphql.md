@@ -1,5 +1,5 @@
 query {
-  profile(uuid: "$uuid|int$") {
+  profile(uuid: {{uuid|int}}) {
     name
     email
     picture

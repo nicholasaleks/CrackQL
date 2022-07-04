@@ -2,6 +2,8 @@ import graphql
 import re
 import csv
 import textwrap
+from lib.helpers import print_output
+from pprint import pprint
 
 try:
     import textwrap
@@ -15,6 +17,9 @@ else:
         return textwrap.indent(text, amount * ch)
 
 def get_root_type(query_data):
+	'''
+	Extracts the root operation type from the input query
+	'''
 	first = query_data.split('\n', 1)[0]
 	return first
 
@@ -24,14 +29,19 @@ def get_operation(query_data):
 	return textwrap.dedent(last)
 
 def get_variable_type(query_data, variable):
-	# Check for header variable names against query payload
-	regex = r"\{\{.*" + re.escape(variable) + r".*\|(...)\}\}"
+	'''
+	Identifies if jinja variables from CSV header exist in query
+	'''
+	regex = r"\{\{.*" + re.escape(variable) + r".*\|(str|int|float)\}\}"
 	try:
 		return re.search(regex, query_data).group(1)
 	except:
 		return False
 
 def get_csv_row_count(csv_input, delimiter):
+	'''
+	Return to total number of rows in the CSV (minus header)
+	'''
 	csv_line_count = -1
 	with open(csv_input, newline='') as csvfile:
 		reader = csv.reader(csvfile, delimiter=delimiter)
@@ -42,6 +52,9 @@ def get_csv_row_count(csv_input, delimiter):
 	return csv_line_count
 
 def get_variables(csv_input, delimiter):
+	'''
+	Return the variable names from the header of CSV
+	'''
 	with open(csv_input, newline='') as csvfile:
 		reader = csv.reader(csvfile, delimiter=delimiter)
 		list_of_column_names = []
@@ -50,16 +63,90 @@ def get_variables(csv_input, delimiter):
 			break
 	return list_of_column_names
 
-def to_str(text):
-    """Custom filter"""
-    return '"{}"'.format(text)
+def parse_data_response(response, raw_data, data_results, inputs, verbose=False):
+	'''
+	Packages the responses from the batched queries and returns both raw and formated data
+	'''
+	
+	data_result = {}
+	try:
+		if 'data' in response and isinstance(response['data'], dict):
+			raw_data.append(response['data'])
+			for r in response['data'].items():
+				name, data = r
+				data_result[name] = {}
+				data_result[name]['inputs'] = inputs
+				data_result[name]['data'] = data
+				#data_result[name]['content-length'] = len(data)
+				data_results.append(data_result)
+				data_result = {}
+	except Exception as e:
+		print(e)
+		pass
 
-def to_int(text):
-    """Custom filter"""
-    return int(text)
+	return (raw_data, data_results)
+
+def parse_error_response(response, raw_errors, error_results, inputs, verbose=False):
+	'''
+	Packages the responses from the batched queries and returns both raw and formated errors
+	'''
+	error_result = {}
+	try:
+		if 'errors' in response and isinstance(response['errors'], list):
+			for r in response['errors']:
+				raw_errors.append(r)
+				message = r.get('message')
+
+				try:
+					alias = r.get('path')[0]
+				except IndexError:
+					alias = 'undefined'
+					pass
+
+				error_result[alias] = {}
+				error_result[alias]['inputs'] = inputs
+				error_result[alias]['error'] = r['message']
+				#error_result[alias]['content-length'] = len(message)
+				error_results.append(error_result)
+				error_result = {}
+
+	except Exception as e:
+		print(e)
+		pass
+
+	return (raw_errors, error_results)
 
 
-def to_float(text):
-    """Custom filter"""
-    return float(text)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
