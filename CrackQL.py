@@ -53,10 +53,9 @@ def main():
 	)
 	parser.add_option(
 		'-o',
-		'--output-json',
-		dest='output_json',
-		action='store_true',
-		help='Output data and error results to JSON files within a directory (default: results/[domain])[uuid]/',
+		'--output-directory',
+		dest='output_directory',
+		help='Output directory to store results (default: ./results/[domain]_[uuid]/',
 	)
 	parser.add_option(
 		'-b',
@@ -208,8 +207,8 @@ def main():
 				print("Errors:")
 				pprint(error_results)
 
-			if options.output_json:
-				directory = options.output_json
+			if options.output_directory:
+				directory = options.output_directory
 			else:
 				directory = 'results/' + urlparse(options.url).netloc + '_' + str(uuid.uuid4())[0:6]
 			print('[*] Writing to directory', directory)
