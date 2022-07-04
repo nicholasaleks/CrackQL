@@ -100,7 +100,7 @@ operator, pass123
 operator, password123
 </pre>
 
-### Valid input types
+#### Valid input types
 - `str`
 - `int`
 - `float`
