@@ -25,7 +25,7 @@ def get_operation(query_data):
 
 def get_variable_type(query_data, variable):
 	# Check for header variable names against query payload
-	regex = r'\$' + re.escape(variable) + r'\|(...)\$"'
+	regex = r"\{\{.*" + re.escape(variable) + r".*\|(...)\}\}"
 	try:
 		return re.search(regex, query_data).group(1)
 	except:
@@ -50,16 +50,16 @@ def get_variables(csv_input, delimiter):
 			break
 	return list_of_column_names
 
-def inject_payload(operation, variables):
-	for key in variables.keys():
-		variable_type = get_variable_type(operation, key)
-		regex = r'"\$' + re.escape(key) + r'\|'+ re.escape(variable_type) + r'\$"'
-		if variable_type == 'str':
-			filled_operation = re.sub(regex, '"'+re.escape(variables[key])+'"', operation)
-		elif variable_type == 'int':
-			filled_operation = re.sub(regex, ''+re.escape(variables[key])+'', operation)
-		operation = filled_operation
+def to_str(text):
+    """Custom filter"""
+    return '"{}"'.format(text)
+
+def to_int(text):
+    """Custom filter"""
+    return int(text)
 
 
-	return operation
+def to_float(text):
+    """Custom filter"""
+    return float(text)
 

@@ -1,5 +1,5 @@
 from graphql import parse
-from lib.parsers import get_variable_type
+from lib.parser import get_variable_type
 import requests
 import csv
 
@@ -14,6 +14,7 @@ def verify_url(url):
         __typename
       }
     '''
+
 	try:
 		response = requests.post(
 			url,
@@ -35,11 +36,21 @@ def verify_url(url):
 		return False
 
 
-def verify_query(query):
-	with open(query, 'r') as file:
-		data = file.read()
+def verify_query(query, query_format='File'):
+	'''
+	Checks whether or not a GraphQL query is formatted correctly
+	'''
+	if query_format == 'File':
+		with open(query, 'r') as file:
+			data = file.read()
+			try:
+				ast = parse(data)
+			except Exception as e:
+				print('Error: Invalid GraphQL Operation \n{data} \n{e}'.format(data=data, e=e))
+				return False
+	elif query_format == 'String':
 		try:
-			ast = parse(data)
+			ast = parse(query)
 		except Exception as e:
 			print('Error: Invalid GraphQL Operation \n{data} \n{e}'.format(data=data, e=e))
 			return False
@@ -47,8 +58,11 @@ def verify_query(query):
 
 
 def verify_inputs(query, csv_input, delimiter):
+	'''
+	Validates CSV inputs to ensure they match payload jinja variables
+	'''
 	with open(csv_input, newline='') as csvfile:
-		reader = csv.reader(csvfile, delimiter=delimiter)
+		reader = csv.reader(csvfile, delimiter=delimiter, skipinitialspace=True)
 		list_of_column_names = []
 		for row in reader:
 			list_of_column_names = row
@@ -58,7 +72,7 @@ def verify_inputs(query, csv_input, delimiter):
 			query_data = file.read()
 
 			for variable in list_of_column_names:
-				variable = variable.replace(' ', '')
+				print(variable)
 				
 				if not get_variable_type(query_data, variable):
 					print('Error: CSV Header Payload "{variable}" not found in GraphQL operation \n{query_data}'.format(

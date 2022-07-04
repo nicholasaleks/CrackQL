@@ -1,37 +1,15 @@
 from optparse import OptionParser
 from version import VERSION
-from lib.verifications import verify_url, verify_query, verify_inputs
-from lib.parsers import indent, get_root_type, get_csv_row_count, get_operation, inject_payload
+from lib.validations import verify_url, verify_query, verify_inputs
+from lib.parser import indent, get_root_type, get_csv_row_count, get_operation
+from lib.generator import inject_payload, generate_payload, send_payload
+from lib.helpers import print_output
 import sys
 import csv
 import math
 import requests
 import json
 import time
-
-def generate_payload(batch_operations, root_type):
-	operation_body = indent(batch_operations, 4)
-	return root_type  + operation_body + '\n}'
-
-def send_payload(url, payload, batches_sent, total_requests_to_send):
-	print('[+] Sending batch {batches_sent} of {total_requests_to_send} to {url}...'.format(
-		batches_sent=batches_sent,
-		total_requests_to_send=total_requests_to_send,
-		url=url
-	))
-
-	try:
-		response = requests.post(
-			url,
-			verify=False,
-			timeout=10,
-			json={'query':payload}
-		)
-		return response.json()
-
-	except Exception as e:
-		print('Error: {e}'.format(e=e))
-		sys.exit(1)
 
 
 def main():
@@ -93,6 +71,14 @@ def main():
 		default=0
 	)
 	parser.add_option(
+		'--verbose',
+		action='store_true',
+		dest='verbose',
+		help='Prints out verbose messaging',
+		default=False
+	)
+
+	parser.add_option(
 		'-v',
 		'--version',
 		action='store_true',
@@ -127,7 +113,7 @@ def main():
 		sys.exit(1)
 
 
-	print('[*] Validating url, query operation and inputs...')
+	print_output('[*] Validating URL, query operation and inputs...', options.verbose)
 
 	# Verify Target GraphQL Endpoint
 
@@ -136,8 +122,8 @@ def main():
 
 	# Verify GraphQL Operation (mock data)
 
-	if not verify_query(options.query):
-		sys.exit(1)
+	# if not verify_query(options.query):
+	# 	sys.exit(1)
 
 	# Verify Input CSV exists and is correct csv format
 
@@ -146,7 +132,7 @@ def main():
 
 	# **TODO** Measure CSV Input Size and Potentially Shared for better processing 
 
-	print('[*] Generating & parsing batch queries...')
+	print_output('[*] Generating & parsing batch queries...', options.verbose)
 
 	with open(options.query, 'r') as file:
 		query_data = file.read()
@@ -175,7 +161,7 @@ def main():
 					batches_sent += 1
 					time.sleep(int(options.delay))
 					payload = generate_payload(batch_operations, root_type)
-					response = send_payload(options.url, payload, batches_sent, total_requests_to_send)
+					response = send_payload(options.url, payload, batches_sent, total_requests_to_send, options.verbose)
 
 					try:
 						data_results = dict(list(data_results.items()) + list(response['data'].items()))
@@ -192,7 +178,7 @@ def main():
 				batches_sent += 1
 				time.sleep(int(options.delay))
 				payload = generate_payload(batch_operations, root_type)
-				response = send_payload(options.url, payload, batches_sent, total_requests_to_send)
+				response = send_payload(options.url, payload, batches_sent, total_requests_to_send, options.verbose)
 				try:
 					data_results = dict(list(data_results.items()) + list(response['data'].items()))
 					error_results = error_results + response['errors']
@@ -214,3 +200,35 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
