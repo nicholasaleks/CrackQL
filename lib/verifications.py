@@ -9,12 +9,19 @@ def verify_url(url):
 	'''
 	Verifies that the GraphQL endpoint url is valid by running a simple test
 	'''
+	query = '''
+      query {
+        __typename
+      }
+    '''
 	try:
 		response = requests.post(
 			url,
 			verify=False,
-			timeout=10
-		)
+			timeout=10,
+			json={'query': query}
+		).json()
+
 		if response.get('data'):
 			if response.get('data', {}).get('__typename', '') in ('Query', 'QueryRoot', 'query_root'):
 				return True
