@@ -17,7 +17,6 @@ CrackQL works by automatically batching a single GraphQL query or mutation into 
 
 Unlike [Burp Intruder](https://portswigger.net/burp/documentation/desktop/tools/intruder) which sends a request for each unique payload, CrackQL evades traditional API HTTP rate-limit monitoring defenses by using multiple alias queries to stuff large sets of credentials into single HTTP requests. To bypass query cost analysis defenses, CrackQL can be optimized into using a series of smaller batched operations (`-b`) as well as a time delay (`-D`).
 
-
 ## Attack Use Cases
 
 CrackQL can be used for a wide range of GraphQL attacks since it programmatically generates payloads based on a list of dynamic inputs.
@@ -27,13 +26,13 @@ CrackQL can be used for a wide range of GraphQL attacks since it programmaticall
 CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL authentication operations (such as the [GraphQL Authentication Module](https://www.graphql-modules.com/docs#authentication-module)). The below password spraying example works against [DVGA](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) with the `sample-inputs/users-and-passwords.csv` dictionary.
 
 *sample-queries/login.graphql*
-```
+<pre>
 mutation {
-  login(username: {{username|str}}, password: {{password|str}}) {
+  login(username: <b>{{username|str}}</b>, password: {{password|str}}) {
     accessToken
   }
 }
-```
+</pre>
 
 ### Two-factor Authentication OTP Bypass
 
