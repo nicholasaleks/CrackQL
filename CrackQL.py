@@ -2,8 +2,6 @@ import sys
 import os
 import csv
 import math
-import requests
-import json
 import time
 import jinja2
 import graphql
@@ -11,8 +9,8 @@ import uuid
 
 from optparse import OptionParser
 from version import VERSION
-from lib.validations import verify_url, verify_query, verify_inputs
-from lib.parser import indent, get_root_type, get_csv_row_count, get_operation, parse_data_response, parse_error_response
+from lib.validations import verify_url, verify_inputs
+from lib.parser import get_root_type, get_csv_row_count, get_operation, parse_data_response, parse_error_response
 from lib.generator import generate_payload, send_payload, stringify, intify, floatify
 from lib.helpers import print_output
 from graphql.language import print_ast
@@ -164,7 +162,6 @@ def main():
 				for definition in ast.definitions:
 
 					for a in definition.selection_set.selections:
-						#print(a.name.value)
 						suffix += 1
 						aliased_field = 'alias' + str(suffix)
 						a.alias = graphql.language.ast.NameNode()
