@@ -1,9 +1,6 @@
-import graphql
 import re
 import csv
 import textwrap
-from lib.helpers import print_output
-from pprint import pprint
 
 try:
     import textwrap
@@ -67,7 +64,7 @@ def parse_data_response(response, raw_data, data_results, inputs, verbose=False)
 	'''
 	Packages the responses from the batched queries and returns both raw and formated data
 	'''
-	
+
 	data_result = {}
 	try:
 		if 'data' in response and isinstance(response['data'], dict):
@@ -82,7 +79,6 @@ def parse_data_response(response, raw_data, data_results, inputs, verbose=False)
 				data_result = {}
 	except Exception as e:
 		print(e)
-		pass
 
 	return (raw_data, data_results)
 
@@ -101,7 +97,6 @@ def parse_error_response(response, raw_errors, error_results, inputs, verbose=Fa
 					alias = r.get('path')[0]
 				except IndexError:
 					alias = 'undefined'
-					pass
 
 				error_result[alias] = {}
 				error_result[alias]['inputs'] = inputs

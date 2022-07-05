@@ -141,6 +141,9 @@ Options:
   -v, --version         Print out the current version and exit.
 ```
 
+## Configuration
+Use `config.py` to set HTTP cookies and headers if the endpoint requires authentication.
+
 ## Maintainers
 * [Nick Aleks](https://github.com/nicholasaleks)
 * [Dolev Farhi](https://github.com/dolevf)

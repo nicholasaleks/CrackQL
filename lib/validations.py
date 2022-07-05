@@ -1,7 +1,8 @@
-from graphql import parse
-from lib.parser import get_variable_type
 import requests
 import csv
+
+from graphql import parse
+from lib.parser import get_variable_type
 
 requests.packages.urllib3.disable_warnings()
 

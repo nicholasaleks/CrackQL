@@ -1,9 +1,9 @@
-from lib.parser import get_variable_type, indent
-from lib.validations import verify_query
-from lib.helpers import print_output
-import re
 import sys
 import requests
+
+from lib.parser import indent
+from lib.validations import verify_query
+from lib.helpers import print_output
 
 
 def stringify(text):
@@ -49,7 +49,7 @@ def send_payload(url, payload, batches_sent, total_requests_to_send, verbose=Fal
 		total_requests_to_send=total_requests_to_send,
 		url=url
 	))
-	
+
 	try:
 		response = requests.post(
 			url,
