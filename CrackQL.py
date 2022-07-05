@@ -206,7 +206,7 @@ def main():
 				directory = 'results/' + urlparse(options.url).netloc + '_' + str(uuid.uuid4())[0:6]
 			print('[*] Writing to directory', directory)
 			if not os.path.exists(directory):
-				os.mkdir(directory)
+				os.makedirs(directory, exist_ok=True)
 
 			if raw_data:
 				f = open(directory + '/data.json', 'w')
