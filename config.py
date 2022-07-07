@@ -1,2 +1,3 @@
 HEADERS = {}
 COOKIES = {}
+PROXIES = {}
