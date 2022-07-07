@@ -166,7 +166,7 @@ Options:
 ```
 
 ## Configuration
-Use `config.py` to set HTTP cookies and headers if the endpoint requires authentication.
+Use `config.py` to set HTTP cookies, headers or proxies if the endpoint requires authentication.
 
 ## Maintainers
 * [Nick Aleks](https://github.com/nicholasaleks)
