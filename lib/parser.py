@@ -94,8 +94,9 @@ def parse_error_response(response, raw_errors, error_results, inputs, verbose=Fa
 
 				try:
 					alias = r.get('path')[0]
-				except IndexError:
+				except:
 					alias = 'undefined'
+
 
 				error_result[alias] = {}
 				error_result[alias]['inputs'] = inputs
