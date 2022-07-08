@@ -1,5 +1,6 @@
-import requests
+import config
 import csv
+import requests
 
 from graphql import parse
 from lib.parser import get_variable_type
@@ -19,6 +20,9 @@ def verify_url(url):
 	try:
 		response = requests.post(
 			url,
+                        cookies=config.COOKIES,
+                        headers=config.HEADERS,
+                        proxies=config.PROXIES,
 			verify=False,
 			timeout=10,
 			json={'query': query}

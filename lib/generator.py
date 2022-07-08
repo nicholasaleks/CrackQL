@@ -1,4 +1,5 @@
 import sys
+import config
 import requests
 
 from lib.parser import indent
@@ -54,6 +55,9 @@ def send_payload(url, payload, batches_sent, total_requests_to_send, verbose=Fal
 		response = requests.post(
 			url,
 			verify=False,
+                        cookies=config.COOKIES,
+                        headers=config.HEADERS,
+                        proxies=config.PROXIES,
 			timeout=360,
 			json={'query':payload}
 		)

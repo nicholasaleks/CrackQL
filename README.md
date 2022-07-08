@@ -166,10 +166,11 @@ Options:
 ```
 
 ## Configuration
-Use `config.py` to set HTTP cookies and headers if the endpoint requires authentication.
+Use `config.py` to set HTTP cookies, headers or proxies if the endpoint requires authentication.
 
 ## Maintainers
 * [Nick Aleks](https://github.com/nicholasaleks)
 * [Dolev Farhi](https://github.com/dolevf)
 
 ## Mentions
+* [Kitploit](https://www.kitploit.com/2022/07/crackql-graphql-password-brute-force.html)
