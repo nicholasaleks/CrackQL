@@ -173,3 +173,4 @@ Use `config.py` to set HTTP cookies, headers or proxies if the endpoint requires
 * [Dolev Farhi](https://github.com/dolevf)
 
 ## Mentions
+* [Kitploit](https://www.kitploit.com/2022/07/crackql-graphql-password-brute-force.html)
