@@ -23,4 +23,7 @@ dependencies = [
 ]
 
 [tool.setuptools]
-py-modules = []
+py-modules = ['CrackQL', 'version', 'lib', 'config']
+
+[project.scripts]
+CrackQL = "CrackQL:main"
