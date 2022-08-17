@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "CrackQL"
+version = "1.0"
+authors = [
+    {name = "Nick Aleks", email = "naleks@asec.io"},
+    {name = "Dolev Farhi", email = "dolev@blackhatgraphql.com"}
+]
+description = "CrackQL is a GraphQL password brute-force and fuzzing utility."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "BSD 3-Clause License"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "requests",
+    "graphql-core",
+    "jinja2"
+]
+
+[tool.setuptools]
+py-modules = []

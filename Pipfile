@@ -7,6 +7,7 @@ name = "pypi"
 requests = "*"
 graphql-core = "*"
 jinja2 = "*"
+unknown = {editable = true, path = "."}
 
 [dev-packages]
 
