@@ -23,7 +23,7 @@ packages = [
 ]
 
 [tool.poetry.scripts]
-CrackQL = 'CrackQL:main'
+crackqL = 'CrackQL:main'
 
 [tool.poetry.dependencies]
 python = "^3.6.0"
