@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "CrackQL"
+version = "1.0"
+description = "CrackQL is a GraphQL password brute-force and fuzzing utility."
+authors = ["Nick Aleks <naleks@asec.io>", "Dolev Farhi <dolev@blackhatgraphql.com>"]
+readme = "README.md"
+homepage = "https://github.com/nicholasaleks/CrackQL"
+repository = "https://github.com/nicholasaleks/CrackQL"
+exclude = []
+include = ["CrackQL.py", "version", "lib", "LICENSE", "sample-inputs", "sample-queries"]
+license = "BSD-3-Clause"
+classifiers = [
+    'Environment :: Console',
+    'License :: OSI Approved :: BSD License',
+    'Programming Language :: Python :: 3',
+    'Topic :: Security',
+]
+
+packages = [
+    { include = "version.py" },
+    { include = "config.py" },
+    { include = "lib"}
+]
+
+[tool.poetry.scripts]
+crackql = 'CrackQL:main'
+
+[tool.poetry.dependencies]
+python = "^3.6.0"
+requests = "*"
+graphql-core = "^3.2.1"
+jinja2 = "*"
+typing-extensions = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
