@@ -41,7 +41,7 @@ Unlike [Burp Intruder](https://portswigger.net/burp/documentation/desktop/tools/
 
 CrackQL is perfect against GraphQL deployments that leverage in-band GraphQL authentication operations (such as the [GraphQL Authentication Module](https://www.graphql-modules.com/docs#authentication-module)). The below password spraying example works against [DVGA](https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application) with the `sample-inputs/users-and-passwords.csv` dictionary.
 
-*sample-queries/login.graphql*
+[sample-queries/login.graphql](sample-queries/login.graphql)
 <pre>
 mutation {
   login(username: <b>{{username|str}}</b>, password: <b>{{password|str}}</b>) {
@@ -54,7 +54,7 @@ mutation {
 
 It is possible to use CrackQL to bypass two-factor authentication by sending all OTP (One Time Password) tokens
 
-*sample-queries/otp-bypass.graphql*
+[sample-queries/otp-bypass.graphql](sample-queries/otp-bypass.graphql)
 <pre>
 mutation {
   twoFactor(otp: <b>{{otp|int}}</b>) {
@@ -67,7 +67,7 @@ mutation {
 
 CrackQL can also be used for enumeration attacks to discover valid user ids, usernames and email addresses
 
-*sample-queries/enumeration.graphql*
+[sample-queries/enumeration.graphql](sample-queries/enumeration.graphql)
 <pre>
 query {
   signup(email: <b>{{email|str}}</b>, password: <b>{{password|str}}</b>) {
@@ -82,7 +82,7 @@ query {
 
 CrackQL could be used to iterate over a large number of potential unique identifiers in order to leak object information
 
-*sample-queries/idor.graphql*
+[sample-queries/idor.graphql](sample-queries/idor.graphql)
 <pre>
 query {
   profile(uuid: <b>{{uuid|int}}</b>) {
@@ -101,7 +101,7 @@ CrackQL can be used for general input fuzzing operations, such as sending potent
 
 CrackQL will generate payloads based on input variables defined by a CSV file. CrackQL requires the CSV header to match the input name.
 
-*sample-inputs/usernames_and_passwords.csv*
+[sample-inputs/usernames_and_passwords.csv](sample-inputs/usernames_and_passwords.csv)
 <pre>
 <b>username</b>, <b>password</b>
 admin, admin
@@ -130,7 +130,9 @@ operator, password123
 - Jinja
 
 ### Clone Repository
-`git clone git@github.com:nicholasaleks/CrackQL.git`
+```
+git clone git@github.com:nicholasaleks/CrackQL.git
+```
 
 ### Get Dependencies
 `pip install -r requirements.txt`
