@@ -60,34 +60,41 @@ def get_variables(csv_input, delimiter):
 			break
 	return list_of_column_names
 
-def parse_data_response(response, raw_data, data_results, inputs, verbose=False):
+def parse_data_response(response, raw_data, data_results, inputs, verbose=False, variables_list=None):
 	'''
 	Packages the responses from the batched queries and returns both raw and formated data
 	'''
 
 	data_result = {}
+
 	try:
 		if 'data' in response and isinstance(response['data'], dict):
 			raw_data.append(response['data'])
+			count = 0
 			for r in response['data'].items():
 				name, data = r
 				data_result[name] = {}
-				data_result[name]['inputs'] = inputs
+				if variables_list:
+					data_result[name]['inputs'] = variables_list[count]
+				else:
+					data_result[name]['inputs'] = inputs
 				data_result[name]['data'] = data
 				data_results.append(data_result)
 				data_result = {}
+				count += 1
 	except Exception as e:
 		print(e)
 
 	return (raw_data, data_results)
 
-def parse_error_response(response, raw_errors, error_results, inputs, verbose=False):
+def parse_error_response(response, raw_errors, error_results, inputs, verbose=False, variables_list=None):
 	'''
 	Packages the responses from the batched queries and returns both raw and formated errors
 	'''
 	error_result = {}
 	try:
 		if 'errors' in response and isinstance(response['errors'], list):
+			count = 0
 			for r in response['errors']:
 				raw_errors.append(r)
 				message = r.get('message')
@@ -99,47 +106,16 @@ def parse_error_response(response, raw_errors, error_results, inputs, verbose=Fa
 
 
 				error_result[alias] = {}
-				error_result[alias]['inputs'] = inputs
+				if variables_list:
+					error_result[alias]['inputs'] = variables_list[count]
+				else:
+					error_result[alias]['inputs'] = inputs
 				error_result[alias]['error'] = r['message']
 				error_results.append(error_result)
 				error_result = {}
+				count += 1
 
 	except Exception as e:
 		print(e)
 
 	return (raw_errors, error_results)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

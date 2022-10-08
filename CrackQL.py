@@ -150,10 +150,13 @@ def main():
 
 		with open(options.input_csv, newline='') as csvfile:
 			reader = csv.DictReader(csvfile, delimiter=options.delimiter, skipinitialspace=True)
+			reader2 = csv.DictReader(csvfile, delimiter=options.delimiter, skipinitialspace=True)
 			suffix = 0
 			count = 0
+			variables_list = []
 			for variables in reader:
 				count += 1
+				variables_list.append(variables)
 				template = env.from_string(initial_query)
 				query = template.render(variables)
 				ast = graphql.parse(query)
@@ -183,8 +186,8 @@ def main():
 				time.sleep(int(options.delay))
 				payload = generate_payload(batch_operations, root_type)
 				response = send_payload(options.url, payload, batches_sent, total_requests_to_send, options.verbose)
-				raw_data, data_results = parse_data_response(response, raw_data, data_results, variables)
-				raw_errors, error_results = parse_error_response(response, raw_errors, error_results, variables)
+				raw_data, data_results = parse_data_response(response, raw_data, data_results, variables, False, variables_list)
+				raw_errors, error_results = parse_error_response(response, raw_errors, error_results, variables, False, variables_list)
 				batch_operations = ''
 
 
