@@ -1,6 +1,7 @@
 import re
 import csv
 import textwrap
+import json
 
 try:
     import textwrap
@@ -68,20 +69,28 @@ def parse_data_response(response, raw_data, data_results, inputs, verbose=False,
 	data_result = {}
 
 	try:
-		if 'data' in response and isinstance(response['data'], dict):
-			raw_data.append(response['data'])
-			count = 0
-			for r in response['data'].items():
-				name, data = r
-				data_result[name] = {}
-				if variables_list:
-					data_result[name]['inputs'] = variables_list[count]
-				else:
-					data_result[name]['inputs'] = inputs
-				data_result[name]['data'] = data
+		data = response.get('data')
+		if isinstance(data, dict):
+			raw_data.append(data)
+
+			for count, (name, data_value) in enumerate(data.items()):
+				current_input = variables_list[count] if variables_list else inputs
+				data_result = {
+					name: {
+						'inputs': current_input,
+						'data': data_value
+					}
+				}
 				data_results.append(data_result)
-				data_result = {}
-				count += 1
+
+	except Exception as e:
+		print(e)
+
+	# Edit the random key by a same key (result)
+	try:
+		for key in data_results:
+			key["result"] = key.pop(next(iter(key)))
+
 	except Exception as e:
 		print(e)
 
