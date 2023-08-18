@@ -6,6 +6,7 @@ import time
 import jinja2
 import graphql
 import uuid
+import json
 
 from optparse import OptionParser
 from version import VERSION
@@ -166,9 +167,8 @@ def main():
 
 					for a in definition.selection_set.selections:
 						suffix += 1
-						aliased_field = 'alias' + str(suffix)
 						a.alias = graphql.language.ast.NameNode()
-						a.alias.value = aliased_field
+						a.alias.value = 'alias' + str(suffix)
 
 					batch_operations = batch_operations +'\n'+ get_operation(print_ast(ast))
 
@@ -210,7 +210,7 @@ def main():
 
 			if raw_data:
 				f = open(directory + '/data.json', 'w')
-				f.write(str(raw_data))
+				json.dump(data_results, f)
 				f.close()
 
 			if raw_errors:
